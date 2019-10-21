@@ -49,3 +49,4 @@
 版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。</div>
 </body>
 </html>
+<script type="text/javascript" src="../Public/Admin/Js/jquery-1.8.3.min.js"></script>

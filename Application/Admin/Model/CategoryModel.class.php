@@ -22,7 +22,7 @@ class CategoryModel extends CommonModel{
         $data = $this->select();
         //在对获取的信息进行个格式化
         $list = $this->getTree($data,$id,1,false);
-        foreach ($list as$ite=>$value){
+        foreach ($list as $item=>$value){
             $tree[] = $value['id'];
         }
         return $tree;
