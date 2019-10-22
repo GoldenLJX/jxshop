@@ -3,11 +3,11 @@ return array(
 	//'配置项'=>'配置值'
     'URL_MODEL'=>2,//设置URL模式为重写模式
     'MODULE_ALLOW_LIST'=>array('Home','Admin'),//设置容许访问的模块
-    'DEFAULT_MODULE'=>'Admin',//设置默认的模块
+//    'DEFAULT_MODULE'=>'Admin',//设置默认的模块
     //增加自定义的模板替换配置信息
     'TMPL_PARSE_STRING'=>array(
         '__PUBLIC__'=>'../ueditor',
-        '__PUBLIC_ADMIN__'=>'../Public/Admin',
+        '__PUBLIC_ADMIN__'=>'/Public/Admin',
     ),
     /* 数据库设置 */
     'DB_TYPE'               =>  'mysql',     // 数据库类型
