@@ -11,7 +11,7 @@ class RoleModel extends CommonModel{
     //显示出角色的列表
     public  function listData(){
         //定义页尺寸
-        $pagesize = 3;
+        $pagesize = 10;
         //计算数据总数
         $count = $this->count();
         //生成分页导航信息
@@ -27,4 +27,5 @@ class RoleModel extends CommonModel{
     public function dels($role_id){
         return $this->where('id='.$role_id)->delete();
     }
+
 }

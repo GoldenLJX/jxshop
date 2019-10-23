@@ -74,4 +74,19 @@ class AdminModel extends CommonModel{
            'role_id'=>$role_id
         ));
     }
+    public function login($username,$password){
+        //根据用户名查询用户信息
+        $userinfo = $this->where("username='$username'")->find();
+        if(!$userinfo){
+            $this->error="用户名不存在";
+            return false;
+        }
+        //根据密码进行比对
+        if($userinfo['password'] != md5($password)){
+            $this->error="密码错误";
+            return false;
+        }
+        cookie('admin',$userinfo);
+        return true;
+    }
 }
