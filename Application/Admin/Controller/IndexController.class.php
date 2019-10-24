@@ -8,6 +8,7 @@ class IndexController extends CommonController {
         $this->display();
     }
     public function menu(){
+        $this->assign('menus',$this->user['menus']);
         $this->display();
     }
     public function main(){

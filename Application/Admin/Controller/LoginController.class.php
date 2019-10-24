@@ -18,8 +18,8 @@ class LoginController extends Controller{
             $username = I('post.username');
             $password = I('post.password');
             $model = D('Admin');
-            $user = $model->login($username,$password);
-            if(!$user){
+            $info = $model->login($username,$password);
+            if(!$info){
                 $this->error($model->getError());
             }
             $this->success('登录成功',U('Index/index'));

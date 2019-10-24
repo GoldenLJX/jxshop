@@ -6,7 +6,7 @@ return array(
 //    'DEFAULT_MODULE'=>'Admin',//设置默认的模块
     //增加自定义的模板替换配置信息
     'TMPL_PARSE_STRING'=>array(
-        '__PUBLIC__'=>'../ueditor',
+        '__PUBLIC__'=>'/ueditor',
         '__PUBLIC_ADMIN__'=>'/Public/Admin',
     ),
     /* 数据库设置 */

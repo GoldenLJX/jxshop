@@ -10,7 +10,7 @@
 <body>
 <h1>
     
-    <span class="action-span"><a href="<?php echo U('index');?>">商品分类</a></span>
+    <span class="action-span"><a href="<?php echo U('index');?>">角色列表</a></span>
     <span class="action-span1"><a href="#">ECSHOP 管理中心</a></span>
     <span id="search_id" class="action-span1"> - 添加角色 </span>
     <div style="clear:both"></div>

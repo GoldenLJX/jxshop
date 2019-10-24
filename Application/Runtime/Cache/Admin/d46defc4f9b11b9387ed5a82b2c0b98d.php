@@ -4,8 +4,8 @@
 <title>ECSHOP 管理中心 - 添加商品 </title>
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../Public/Admin/Styles/general.css" rel="stylesheet" type="text/css" />
-<link href="../Public/Admin/Styles/main.css" rel="stylesheet" type="text/css" />
+<link href="/Public/Admin/Styles/general.css" rel="stylesheet" type="text/css" />
+<link href="/Public/Admin/Styles/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <h1>
@@ -99,11 +99,11 @@
                     <tr>
                         <td class="label">商品描述：</td>
                         <td>
-                            <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.config.js"></script>
-                            <script type="text/javascript" charset="utf-8" src="../ueditor/ueditor.all.js"> </script>
+                            <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+                            <script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.js"> </script>
                             <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
                             <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
-                            <script type="text/javascript" charset="utf-8" src="../ueditor/lang/zh-cn/zh-cn.js"></script>
+                            <script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
                             <script id="editor" name="goods_body" type="text/plain" style="width:1024px;height:500px;"></script>
                         </td>
                     </tr>
@@ -122,7 +122,7 @@
 版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。</div>
 </body>
 </html>
-<script type="text/javascript" src="../Public/Admin/Js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/Public/Admin/Js/jquery-1.8.3.min.js"></script>
 
     <script type="text/javascript">
         //实例化编辑器

@@ -2,47 +2,47 @@
 namespace Admin\Controller;
 //角色控制器
 
-class RoleController extends CommonController{
+class TypeController extends CommonController{
     //添加角色
     public  function add(){
         if(IS_GET){
             $this->display();
         }else{
-            $model = D('Role');
+            $model = D('Type');
                $data =  $model->create();
                if(!$data){
                    $this->error($model->getError());
                }
                $model->add($data);
-               $this->success('角色数据写入成功');
+               $this->success('类型数据写入成功');
         }
 
     }
     //显示角色列表
     public function index(){
-        $model = D('Role');
+        $model = D('Type');
         $data = $model->listData();
         $this->assign('data',$data);
         $this->display();
     }
     public function dels(){
-        $role_id = intval(I('get.role_id'));
-        if($role_id<=1){
+        $type_id = intval(I('get.type_id'));
+        if($type_id<=0){
             $this->error('参数错误');
         }
-        $model = D('Role');
-        $res = $model->dels($role_id);
+        $model = D('Type');
+        $res = $model->dels($type_id);
         if(!$res){
             $this->error($model->getError());
         }
-        $this->success('角色删除成功');
+        $this->success('类型删除成功');
     }
     //编辑功能
     public function edit(){
-       $model = D('Role');
+       $model = D('Type');
         if(IS_GET){
-            $role_id =  $id=$_GET['role_id'];
-            $info = $model->findOneById($role_id);
+            $type_id =  $id=$_GET['type_id'];
+            $info = $model->findOneById($type_id);
             $this->assign('info',$info);
             $this->display();
         }else{
@@ -50,7 +50,7 @@ class RoleController extends CommonController{
             if(!data){
                 $this->error($model->getError());
             }
-            if($data['id']<=1){
+            if($data['id']<=0){
                 $this->error('参数错误');
             }
             $model->save($data);

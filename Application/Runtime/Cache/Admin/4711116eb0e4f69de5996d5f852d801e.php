@@ -123,35 +123,12 @@ body {
 <div id="main-div">
     <div id="menu-list">
         <ul id="menu-ul">
-            <li class="explode" key="02_cat_and_goods" name="menu">
-            商品管理
-                <ul>
-                    <li class="menu-item"><a href="goodsList.html" target="main-frame">商品列表</a></li>
-                    <li class="menu-item"><a href="goodsAdd.html" target="main-frame">添加新商品</a></li>
-                    <li class="menu-item"><a href="categoryList.html" target="main-frame">商品分类</a></li>
-                    <li class="menu-item"><a href="brandList.html" target="main-frame">商品品牌</a></li>
-                    <li class="menu-item"><a href="goodsTrash.html" target="main-frame">商品回收站</a></li>
-                </ul>
-            </li>
-
-            <li class="explode" key="04_order" name="menu">
-            订单管理
-                <ul>
-                    <li class="menu-item"><a href="orderList.html" target="main-frame">订单列表</a></li>
-                    <li class="menu-item"><a href="orderQuery.html" target="main-frame">订单查询</a></li>
-                    <li class="menu-item"><a href="orderAdd.html" target="main-frame">添加订单</a></li>
-                    <li class="menu-item"><a href="delivery_list.html" target="main-frame">发货单列表</a></li>
-                    <li class="menu-item"><a href="back_list.html" target="main-frame">退货单列表</a></li>
-                </ul>
-            </li>
-            <li class="explode" key="08_members" name="menu">
-            会员管理
-                <ul>
-                    <li class="menu-item"><a href="userList.html" target="main-frame">会员列表</a></li>
-                    <li class="menu-item"><a href="userAdd.html" target="main-frame">添加会员</a></li>
-                    <li class="menu-item"><a href="userMessage.html" target="main-frame">会员留言</a></li>
-                </ul>
-            </li>
+            <?php if(is_array($menus)): $i = 0; $__LIST__ = $menus;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i; if(($vo["parent_id"]) == "0"): ?><li class="explode" key="02_cat_and_goods" name="menu">
+                    <?php echo ($vo["rule_name"]); ?>
+                        <ul>
+                            <?php if(is_array($menus)): $i = 0; $__LIST__ = $menus;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i; if(($v["parent_id"]) == $vo["id"]): ?><li class="menu-item"><a href="<?php echo U($v['module_name'].'/'.$v['controller_name'].'/'.$v['action_name']);?>" target="main-frame"><?php echo ($v["rule_name"]); ?></a></li><?php endif; endforeach; endif; else: echo "" ;endif; ?>
+                        </ul>
+                    </li><?php endif; endforeach; endif; else: echo "" ;endif; ?>
         </ul>
     </div>
     <div id="help-div" style="display:none">

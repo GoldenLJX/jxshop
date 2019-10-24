@@ -4,8 +4,8 @@
 <title>ECSHOP 管理中心 - 商品分类列表  </title>
 <meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../Public/Admin/Styles/general.css" rel="stylesheet" type="text/css" />
-<link href="../Public/Admin/Styles/main.css" rel="stylesheet" type="text/css" />
+<link href="/Public/Admin/Styles/general.css" rel="stylesheet" type="text/css" />
+<link href="/Public/Admin/Styles/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <h1>
@@ -29,10 +29,10 @@
             <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><tr align="center" class="0">
                 <td align="left" class="first-cell">
                 
-                <img src="../Public/Admin/Images/menu_minus.gif" width="9" height="9" border="0" style="margin-left:0em" />
+                <img src="/Public/Admin/Images/menu_minus.gif" width="9" height="9" border="0" style="margin-left:0em" />
                 <span><a href="javascript:void(0)">|<?php echo (str_repeat('--',$vo["lev"])); echo ($vo["cname"]); ?></a></span>
                 </td>
-                <td width="15%"><img src="../Public/Admin/Images/<?php if(($vo["isrec"]) == "1"): ?>yes.gif<?php else: ?>no.gif<?php endif; ?>"  /></td>
+                <td width="15%"><img src="/Public/Admin/Images/<?php if(($vo["isrec"]) == "1"): ?>yes.gif<?php else: ?>no.gif<?php endif; ?>"  /></td>
                 
                 <td width="30%" align="center">
                 <a href="<?php echo U('edit','id='.$vo['id']);?>">编辑</a> |
@@ -49,4 +49,4 @@
 版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。</div>
 </body>
 </html>
-<script type="text/javascript" src="../Public/Admin/Js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/Public/Admin/Js/jquery-1.8.3.min.js"></script>
