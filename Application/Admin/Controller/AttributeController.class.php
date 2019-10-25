@@ -4,6 +4,12 @@ namespace Admin\Controller;
 //角色控制器
 
 class AttributeController extends CommonController{
+    protected function model(){
+        if(!$this->_model){
+            $this->_model = D('Attribute');
+        }
+        return $this->_model;
+    }
     //添加角色
     public function add()
     {
@@ -13,58 +19,56 @@ class AttributeController extends CommonController{
             $this->assign('type', $type);
             $this->display();
         } else {
-            $model = D('Type');
-            $data = $model->create();
-            if (!$data) {
-                $this->error($model->getError());
+            $data = $this->model()->create();
+            if(!$data){
+                $this->error($this->model()->getError());
             }
-            $model->add($data);
-            $this->success('类型数据写入成功');
+            $this->model()->add($data);
+            $this->success('属性成功写入');
         }
 
     }
 
-    //显示角色列表
+    //显示属性列表
     public function index()
     {
-        $model = D('Type');
-        $data = $model->listData();
+        $data = $this->model()->listData();
         $this->assign('data', $data);
         $this->display();
     }
 
     public function dels()
     {
-        $type_id = intval(I('get.type_id'));
-        if ($type_id <= 0) {
+        $attr_id = intval(I('get.attr_id'));
+        if ($attr_id <= 0) {
             $this->error('参数错误');
         }
-        $model = D('Type');
-        $res = $model->dels($type_id);
+        $res = $this->model()->dels($attr_id);
         if (!$res) {
-            $this->error($model->getError());
+            $this->error($this->model()->getError());
         }
-        $this->success('类型删除成功');
+        $this->success('属性删除成功');
     }
 
     //编辑功能
     public function edit()
     {
-        $model = D('Type');
         if (IS_GET) {
-            $type_id = $id = $_GET['type_id'];
-            $info = $model->findOneById($type_id);
+            $attr_id = $id = $_GET['attr_id'];
+            $info = $this->model()->findOneById($attr_id);
+            $type = D('Type')->select();
+            $this->assign('type', $type);
             $this->assign('info', $info);
             $this->display();
         } else {
-            $data = $model->create();//根据表单提交post数据创建数据
+            $data = $this->model()->create();//根据表单提交post数据创建数据
             if (!data) {
-                $this->error($model->getError());
+                $this->error($this->model()->getError());
             }
             if ($data['id'] <= 0) {
                 $this->error('参数错误');
             }
-            $model->save($data);
+            $this->model()->save($data);
             $this->success('修改成功', U('index'));
         }
     }

@@ -21,12 +21,13 @@
     <div class="tab-div">
         <div id="tabbar-div">
             <p>
-                <span class="tab-front" id="general-tab">通用信息</span>
+                <span class="tab-front" >通用信息</span>
+                <span class="tab-front">商品属性</span>
             </p>
         </div>
         <div id="tabbody-div">
             <form enctype="multipart/form-data" action="" method="post">
-                <table width="90%" id="general-table" align="center">
+                <table class="table" width="90%"  align="center">
                     <tr>
                         <td class="label">商品名称：</td>
                         <td><input type="text" name="goods_name" value=""size="30" />
@@ -108,12 +109,28 @@
                         </td>
                     </tr>
                 </table>
+
+                <table class="table" width="90%"  align="center">
+                    <tr>
+                        <td class="label">商品类型：</td>
+                        <td>
+                            <select name="type_id" >
+                                <?php if(is_array($type)): $i = 0; $__LIST__ = $type;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo["id"]); ?>"><?php echo ($vo["type_name"]); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
+                            </select>
+                        </td>
+                    <tr>
+                        <td colspan="2" id="showAttr"></td>
+                    </tr>
+                    </tr>
+
+                </table>
                 <div class="button-div">
                     <input type="submit" value=" 确定 " class="button"/>
                     <input type="reset" value=" 重置 " class="button" />
                 </div>
             </form>
         </div>
+
     </div>
 
 </div>
@@ -133,5 +150,23 @@
         $('#addExtCate').click(function () {
            let copySelect =  $(this).next().clone();
            $(this).parent().append(copySelect);
+        })
+        //实现选项卡的切换
+        $("#tabbar-div p span").click(function () {
+            alert(0);
+            //将所有的table设置为隐藏
+            $('.table').hide();
+            //将当前点击的选项卡对应的内容设置为显示
+            var i = $(this).index();
+            $('.table').eq(i).show();
+        });
+
+        $('#type_id').change(function () ",
+                data:{type_id:type_id},
+                type:post,
+                success:function (msg) {
+                    $('$showAttr').html(msg);
+                }
+            })
         })
     </script>

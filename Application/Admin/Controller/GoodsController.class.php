@@ -2,11 +2,29 @@
 namespace Admin\Controller;
 class GoodsController extends CommonController
 {
+    public function showAttr(){
+        $type_id = intval(I('post.type_id'));
+        if($type_id<=0){
+            echo '没有数据';
+            exit;
+        }
+        $data = D('Attribute')->where('type_id='.$type_id)->select();
+        foreach ($data as $key=>$value){
+            if($value['attr_input_type']==2){
+                //是一个列表选择,因此需要处理默认值
+                $data[$key]['attr_value']=explode(',',$value['attr_value']);
+            }
+        }
+        $this->assign('data',$data);
+        $this->display();
+    }
     //商品的添加功能
     public function add(){
         if(IS_GET){
             //获取分类信息
             $cate = D('Category')->getCateTree();
+            $type = D('Type')->select();
+            $this->assign('type',$type);
             $this->assign('cate',$cate);
             $this->display();
             exit();

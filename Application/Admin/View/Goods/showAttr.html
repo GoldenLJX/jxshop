@@ -1,0 +1,18 @@
+<table width="90%"  align="center">
+    <volist name="data" id="vo">
+    <tr>
+        <td class="label">{$vo.attr_name}:</td>
+        <td>
+            <eq name="vo.attr_input_type" value="1">
+                <input type="text">
+                <else/>
+                <select>
+                    <volist name="vo.attr_value" id="v">
+                        <option>{$v}</option>
+                    </volist>
+                </select>
+            </eq>
+        </td>
+    </tr>
+    </volist>
+</table>
