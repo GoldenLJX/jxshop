@@ -5,7 +5,7 @@ class GoodsModel extends CommonModel{
     protected $fields=array(
         'id','goods_name','goods_sn','cate_id','market_price'
         ,'shop_price','goods_img','goods_thumb','is_hot','is_rec',
-        'is_new','addtime','isdel','is_sale'
+        'is_new','addtime','isdel','is_sale','type_id'
     );
     //自定验证
     protected $_validate=array(
@@ -55,6 +55,19 @@ class GoodsModel extends CommonModel{
        $ext_cate_id = I('post.ext_cate_id');//I函数可以获取get和post请求的参数
        //对提交的数据进行去除重复的操作
        D('GoodsCate')->insertExtCate($ext_cate_id,$goods_id);
+
+       //属性的入库
+        $attr=I('post.attr');
+        foreach ($attr as $key=>$value){
+            foreach ($value as $v){
+                $attr_list[] = array(
+                    'goods_id'=>$goods_id,
+                    'attr_id'=>$key,
+                    'attr_values'=>$v
+                );
+            }
+        }
+        M('GoodsAttr')->addAll($attr_list);
     }
 
     //获取数据库中还没有删除的商品列表
@@ -164,6 +177,22 @@ class GoodsModel extends CommonModel{
             $data['goods_img'] = $res['goods_img'];
             $data['goods_thumb'] = $res['goods_thumb'];
         }
+        //属性修改
+        //1.删除当前已有的属性信息
+        $goodsAttrModel = M('GoodsAttr');
+        $goodsAttrModel->where('goods_id='.$goods_id)->delete();
+        $attr = I('post.attr');
+        foreach($attr as $key=>$value){
+            dump($key);
+            foreach ($value as $v){
+                $attr_list[] = array(
+                    'goods_id'=>$goods_id,
+                    'attr_id'=>$key,
+                    'attr_values'=>$v
+                );
+            }
+        }
+        M('GoodsAttr')->addAll($attr_list);
         return $this->save($data);
     }
 

@@ -5,7 +5,7 @@ class GoodsController extends CommonController
     public function showAttr(){
         $type_id = intval(I('post.type_id'));
         if($type_id<=0){
-            echo '没有数据';
+//            echo '没有数据';
             exit;
         }
         $data = D('Attribute')->where('type_id='.$type_id)->select();
@@ -90,6 +90,22 @@ class GoodsController extends CommonController
             //对商品描述进行反转移
             $info['goods_body'] = htmlspecialchars_decode($info['goods_body']);
             $this->assign('info',$info);
+            //获取所有的类型
+            $type = D('type')->select();
+            $this->assign('type',$type);
+            //根据商品标识获取当前商品对应的属性及属性值
+            $goodsAttrModel = M('GoodsAttr');
+            $attr = $goodsAttrModel->alias('a')->field('a.*,b.attr_name,b.attr_type
+            ,b.attr_input_type,b.attr_value')->join('left join jx_attribute b on a.attr_id=b.id')->where('a.goods_id='.$goods_id)->select();
+            foreach ($attr as $key =>$value){
+                if($value['attr_input_type']==2){
+                    $attr[$key]['attr_value']=explode(',',$value['attr_value']);
+                }
+            }
+            foreach ($attr as $key =>$value){
+               $attr_list[$value]['attr_id'][] = $value;
+            }
+            $this->assign('attr',$attr_list);
             $this->display();
         }else{
             $model = D('Goods');
@@ -123,7 +139,6 @@ class GoodsController extends CommonController
         }
         $this->success('还原成功');
     }
-
     //彻底删除的商品
     public function remove(){
         $goods_id = intval(I('get.goods_id'));
