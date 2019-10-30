@@ -12,6 +12,7 @@
             <p>
                 <span class="tab-front">通用信息</span>
                 <span class="tab-front">商品属性</span>
+                <span class="tab-front">商品相册</span>
             </p>
         </div>
         <div id="tabbody-div">
@@ -118,6 +119,20 @@
                         <td colspan="2" id="showAttr"></td>
                     </tr>
                 </table>
+                <table width="90%" class="table pic" align="center" style="display: none;">
+                    <tr>
+                        <td class="label">添加图片</td>
+                        <td>
+                            <input type="button" name="addNewpic" class="addNewPic" value="添加相册图片">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">相册图片</td>
+                        <td >
+                            <input type="file" name="pic[]"><!--因为不知道要添加多少张图片,因此这里的name要设置成数组-->
+                        </td>
+                    </tr>
+                </table>
                 <div class="button-div">
                     <input type="submit" value=" 确定 " class="button"/>
                     <input type="reset" value=" 重置 " class="button" />
@@ -174,5 +189,12 @@
             current.remove();
          }
     }
+    //实现点击按钮增加图片上传
+    $('.addNewPic').click(function () {
+       //1.将上传框对应的tr进行复制
+        var newfile = $(this).parent().parent().next().clone();
+        //2.将复制的上传框追加到table中
+        $('.pic').append(newfile);
+    });
 </script>
 </block>

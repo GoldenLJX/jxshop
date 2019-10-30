@@ -23,6 +23,7 @@
             <p>
                 <span class="tab-front">通用信息</span>
                 <span class="tab-front">商品属性</span>
+                <span class="tab-front">商品相册</span>
             </p>
         </div>
         <div id="tabbody-div">
@@ -138,6 +139,29 @@
                         </td>
                     </tr>
                 </table>
+                <table width="90%" class="table pic" align="center" style="display: none;">
+                    <tr>
+
+                        <td colspan="2">
+                            <?php if(is_array($goods_img_list)): $i = 0; $__LIST__ = $goods_img_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div style="width:100px; float: left;height: 140px; margin: 0 10px;"><img src="/<?php echo ($vo["goods_thumb"]); ?>" width="100" height="100">
+                                    <input type="button" class="delimg" value="删除" data-img-id="<?php echo ($vo["id"]); ?>">
+                                </div><?php endforeach; endif; else: echo "" ;endif; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"></td>
+                        <td>
+                            <input type="button" name="addNewPic" class="addNewPic" value="增加相册图片">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">相册图片：</td>
+                        <td>
+                            <input type="file" name="pic[]">
+                        </td>
+                    </tr>
+
+                </table>
                 <div class="button-div">
                     <input type="submit" value=" 确定 " class="button"/>
                     <input type="reset" value=" 重置 " class="button" />
@@ -202,4 +226,29 @@
             current.remove();
          }
     }
+    //实现点击按钮增加图片上传
+    $('.addNewPic').click(function () {
+        //1.将上传框对应的tr进行复制
+        var newfile = $(this).parent().parent().next().clone();
+        //2.将复制的上传框追加到table中
+        $('.pic').append(newfile);
+    });
+    //实现商品相册图片删除
+    $('.delimg').click(function () {
+        //获取图片的标识
+        var img_id = $(this).attr('data-img-id');
+        //获取当前的图片对应的对象
+        var obj = $(this).parent();
+        $.ajax({
+            url: "<?php echo U('delImg');?>",
+            data:{img_id:img_id},
+            type:"post",
+            success:function (data) {
+                if(data.status==1){
+                    //删除成功
+                    obj.remove();
+                }
+            }
+        })
+    })
 </script>

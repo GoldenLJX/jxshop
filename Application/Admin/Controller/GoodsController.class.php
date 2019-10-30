@@ -46,6 +46,7 @@ class GoodsController extends CommonController
         $cate =D('Category')->getCateTree();
         $this->assign('cate',$cate);
         $model = D('Goods');
+
         //调用模型方法获取数据
         $data = $model->listdata();
         $this->assign('data',$data);
@@ -106,6 +107,9 @@ class GoodsController extends CommonController
                $attr_list[$value]['attr_id'][] = $value;
             }
             $this->assign('attr',$attr_list);
+            //获取上商品对应的相册图片信息
+            $goods_img_list = M('GoodsImg')->where('goods_id='.$goods_id)->select();
+            $this->assign('goods_img_list',$goods_img_list);
             $this->display();
         }else{
             $model = D('Goods');
@@ -152,5 +156,24 @@ class GoodsController extends CommonController
             $this->error('删除失败!');
         }
         $this->success('彻底删除成功');
+    }
+    //删除相册中的图片
+    public function delImg(){
+        //使用request目的是为了方便浏览器直接测试使用
+        $img_id = intval(I('post.img_id'));
+        if($img_id<=0){
+            $this->ajaxReturn(array('status'=>0,'msg'=>'参数错误'));
+        }
+        //先将图片删除掉
+        $imgModel = D('GoodsImg');
+        $info = $imgModel->where('id='.$img_id)->find();
+        if(!$info){
+            $this->ajaxReturn(array('status'=>0,'msg'=>'参数错误'));
+        }
+        unlink($info['goods_img']);
+        unlink($info['goods_thumb']);
+        //再将
+        $imgModel->where('id='.$img_id)->delete();
+        $this->ajaxReturn(array('status'=>1,'msg'=>'OK'));
     }
 }

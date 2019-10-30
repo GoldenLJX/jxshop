@@ -49,25 +49,41 @@ class GoodsModel extends CommonModel{
     //是在add完成之后自动执行
     public function _after_insert($data)
     {
-        dump($data);
        $goods_id = $data['id'];
        //接收提交的拓展分类
        $ext_cate_id = I('post.ext_cate_id');//I函数可以获取get和post请求的参数
        //对提交的数据进行去除重复的操作
        D('GoodsCate')->insertExtCate($ext_cate_id,$goods_id);
 
-       //属性的入库
-        $attr=I('post.attr');
-        foreach ($attr as $key=>$value){
-            foreach ($value as $v){
-                $attr_list[] = array(
-                    'goods_id'=>$goods_id,
-                    'attr_id'=>$key,
-                    'attr_values'=>$v
-                );
-            }
+        //属性的入库
+        $attr = I('post.attr');
+        D('GoodsAttr')->insertAttr($attr,$goods_id);
+
+        //实现商品相册图片上传以及入库
+        //1、将商品图片上传释放
+        unset($_FILES['goods_img']);
+        $upload = new \Think\Upload();
+        //商品相册图片批量上传
+        $info = $upload->upload();
+        foreach ($info as $key => $value) {
+            //上传之后的图片地址
+            $goods_img = 'Uploads/'.$value['savepath'].$value['savename'];
+            //实现缩略图的制作
+            $img = new \Think\Image();
+            //打开图片
+            $img->open($goods_img);
+            //制作缩略图
+            $goods_thumb = 'Uploads/'.$value['savepath'].'thumb_'.$value['savename'];
+            $img->thumb(100,100)->save($goods_thumb);
+            $list[]=array(
+                'goods_id'=>$goods_id,
+                'goods_img'=>$goods_img,
+                'goods_thumb'=>$goods_thumb
+            );
         }
-        M('GoodsAttr')->addAll($attr_list);
+        if($list){
+            M('GoodsImg')->addAll($list);
+        }
     }
 
     //获取数据库中还没有删除的商品列表
@@ -193,6 +209,32 @@ class GoodsModel extends CommonModel{
             }
         }
         M('GoodsAttr')->addAll($attr_list);
+        //实现追加图片
+        //实现商品相册图片上传以及入库
+        //1、将商品图片上传释放
+        unset($_FILES['goods_img']);
+        $upload = new \Think\Upload();
+        //商品相册图片批量上传
+        $info = $upload->upload();
+        foreach ($info as $key => $value) {
+            //上传之后的图片地址
+            $goods_img = 'Uploads/'.$value['savepath'].$value['savename'];
+            //实现缩略图的制作
+            $img = new \Think\Image();
+            //打开图片
+            $img->open($goods_img);
+            //制作缩略图
+            $goods_thumb = 'Uploads/'.$value['savepath'].'thumb_'.$value['savename'];
+            $img->thumb(100,100)->save($goods_thumb);
+            $list[]=array(
+                'goods_id'=>$goods_id,
+                'goods_img'=>$goods_img,
+                'goods_thumb'=>$goods_thumb
+            );
+        }
+        if($list){
+            M('GoodsImg')->addAll($list);
+        }
         return $this->save($data);
     }
 
