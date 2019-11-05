@@ -5,7 +5,7 @@ class GoodsModel extends CommonModel{
     protected $fields=array(
         'id','goods_name','goods_sn','cate_id','market_price'
         ,'shop_price','goods_img','goods_thumb','is_hot','is_rec',
-        'is_new','addtime','isdel','is_sale','type_id'
+        'is_new','addtime','isdel','is_sale','type_id','goods_number'
     );
     //自定验证
     protected $_validate=array(
@@ -274,5 +274,8 @@ class GoodsModel extends CommonModel{
         //3.删除商品的基本信息
         $this->where("id = $goods_id")->delete();
         return true;
+    }
+    public function getRecGoods($type){
+        return $this->where("is_sale = 1 and $type = 1")->limit(5)->select();
     }
 }

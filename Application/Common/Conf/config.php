@@ -8,6 +8,8 @@ return array(
     'TMPL_PARSE_STRING'=>array(
         '__PUBLIC__'=>'/ueditor',
         '__PUBLIC_ADMIN__'=>'/Public/Admin',
+        '__PUBLIC_HOME__'=>'/Public/Home',
+
     ),
     /* 数据库设置 */
     'DB_TYPE'               =>  'mysql',     // 数据库类型

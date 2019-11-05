@@ -176,4 +176,75 @@ class GoodsController extends CommonController
         $imgModel->where('id='.$img_id)->delete();
         $this->ajaxReturn(array('status'=>1,'msg'=>'OK'));
     }
+
+    //设置商品库存设置
+    public function setNumber()
+    {
+        if(IS_GET){
+            $goods_id = intval(I('get.goods_id'));
+            //通过商品的标识获取对应的单选属性值及属性信息
+            $GoodsAttrModel = D('GoodsAttr');
+            $attr = $GoodsAttrModel->getSigleAttr($goods_id);
+            if(!$attr){
+                //针对没有单选属性的商品获取对应的库存信息
+                $info = D('Goods')->where('id='.$goods_id)->find();
+                $this->assign('info',$info);
+                //该商品没有单选属性
+                $this->display('nosigle');
+                exit;
+            }
+            //针对有单选属性的库存信息获取
+            $info = M('GoodsNumber')->where('goods_id='.$goods_id)->select();
+            if(!$info){
+                //没有获取到对应的库存信息，为了保证模板能够正常显示至少需要一次循环
+                $info=array('goods_number'=>0);
+            }
+            $this->assign('info',$info);
+            $this->assign('attr',$attr);
+            $this->display();
+        }else{
+            $attr = I('post.attr');
+            $goods_number = I('post.goods_number');
+            $goods_id = I('post.goods_id');
+
+            if(!$attr){
+                //没有单选属性的数据提交
+                D('Goods')->where('id='.$goods_id)->setField('goods_number',$goods_number);
+                exit;
+            }
+            //通过循环处理组合 最后数据入库
+            foreach ($goods_number as $key => $value) {
+                //拼接处具体的组合信息
+                $tmp=array();
+                foreach ($attr as $k => $v) {
+                    $tmp[]=$v[$key];
+                }
+                //将组合的数组格式转换为字符串的格式
+                //例如3,4 根4,3是同一个属性组合
+                //对$tmp进行一个排序操作
+                sort($tmp);
+                $goods_attr_ids=implode(',',$tmp);
+                //实现组合的去重
+                if(in_array($goods_attr_ids, $has)){
+                    //重复
+                    //手动去掉$goods_number中对应的库存量
+                    unset($goods_number[$key]);
+                    continue;
+                }
+                $has[]=$goods_attr_ids;
+                $list[]=array(
+                    'goods_id'=>$goods_id,
+                    'goods_number'=>$value,
+                    'goods_attr_ids'=>$goods_attr_ids,
+                );
+            }
+            //实现删除当前商品以及拥有的库存信息
+            M('GoodsNumber')->where('goods_id='.$goods_id)->delete();
+            //将库存信息入库
+            M('GoodsNumber')->addAll($list);
+            //计算当前库存总数
+            $goods_count = array_sum($goods_number);
+            D('Goods')->where('id='.$goods_id)->setField('goods_number',$goods_count);
+        }
+    }
 }
