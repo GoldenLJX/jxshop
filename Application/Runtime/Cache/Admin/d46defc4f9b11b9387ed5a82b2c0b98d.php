@@ -43,6 +43,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <td class="label">促销商品： </td>
+                        <td>
+                            促销价格:<input type="text" name="cx_price" value="<?php echo ($info["cx_price"]); ?>" size="20"/>
+                            开始时间:<input type="text" name="start" value="<?php echo (date('Y-m-d H:i:s',$info["start"])); ?>" size="20"/>
+                            结束时间:<input type="text" name="end" value="<?php echo (date('Y-m-d H:i:s',$info["end"])); ?>" size="20"/>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="label">商品分类：</td>
                         <td>
                             <select name="cate_id">

@@ -15,6 +15,7 @@
 	<script type="text/javascript" src="/Public/Home/js/index.js"></script>
 </head>
 <body>
+	
 	<!-- 顶部导航 start -->
 <div class="topnav">
     <div class="topnav_bd w1210 bc">
@@ -23,7 +24,9 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <?php if(empty($_SESSION['user_id'])): ?><li>您好，欢迎来到京西！[<a href="<?php echo U('User/login');?>">登录</a>] [<a href="<?php echo U('User/regist');?>">免费注册</a>] </li>
+                <?php else: ?>
+                    <li>您好<?php echo ($_SESSION['user']['username']); ?>，欢迎来到京西！[<a href="<?php echo U('User/logout');?>">退出</a>]  </li><?php endif; ?>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -168,9 +171,6 @@
     <!-- 导航条部分 end -->
 </div>
 <!-- 头部 end-->
-	
-	<div style="clear:both;"></div>
-	
 	<!-- 综合区域 start 包括幻灯展示，商城快报 -->
 	<div class="colligate w1210 bc mt10">
 		<!-- 幻灯区域 start -->
@@ -316,41 +316,14 @@
 				<!-- 疯狂抢购 start-->
 				<div class="crazy">
 					<ul>
-						<li>
+					<?php if(is_array($crazy)): $i = 0; $__LIST__ = $crazy;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li>
 							<dl>
-								<dt><a href=""><img src="/Public/Home/images/crazy1.jpg" alt="" /></a></dt>
-								<dd><a href="">惠普G4-1332TX 14英寸</a></dd>
-								<dd><span>售价：</span><strong> ￥2999.00</strong></dd>
+								<dt><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><img src="<?php echo ($vo["goods_thumb"]); ?>" alt="" /></a></dt>
+								<dd><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><?php echo ($vo["goods_name"]); ?></a></dd>
+								<dd><span>售价：</span><strong> ￥<?php echo ($vo["cx_price"]); ?></strong></dd>
 							</dl>
-						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="/Public/Home/images/crazy2.jpg" alt="" /></a></dt>
-								<dd><a href="">直降100元！TCL118升冰箱</a></dd>
-								<dd><span>售价：</span><strong> ￥800.00</strong></dd>
-							</dl>
-						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="/Public/Home/images/crazy3.jpg" alt="" /></a></dt>
-								<dd><a href="">康佳液晶37寸电视机</a></dd>
-								<dd><span>售价：</span><strong> ￥2799.00</strong></dd>
-							</dl>
-						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="/Public/Home/images/crazy4.jpg" alt="" /></a></dt>
-								<dd><a href="">梨子平板电脑7.9寸</a></dd>
-								<dd><span>售价：</span><strong> ￥1999.00</strong></dd>
-							</dl>
-						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="/Public/Home/images/crazy5.jpg" alt="" /></a></dt>
-								<dd><a href="">好声音耳机</a></dd>
-								<dd><span>售价：</span><strong> ￥199.00</strong></dd>
-							</dl>
-						</li>
+						</li><?php endforeach; endif; else: echo "" ;endif; ?>
+
 					</ul>	
 				</div>
 				<!-- 疯狂抢购 end-->
@@ -373,12 +346,12 @@
 				<div class="recommend none">
 					<ul>
 						<?php if(is_array($rec)): $i = 0; $__LIST__ = $rec;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li>
-								<dl>
-									<dt><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><img src="<?php echo ($vo["goods_thumb"]); ?>" alt="" /></a></dt>
-									<dd><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><?php echo ($vo["goods_name"]); ?></a></dd>
-									<dd><span>售价：</span><strong> ￥<?php echo ($vo["shop_price"]); ?></strong></dd>
-								</dl>
-							</li><?php endforeach; endif; else: echo "" ;endif; ?>
+							<dl>
+								<dt><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><img src="<?php echo ($vo["goods_thumb"]); ?>" alt="" /></a></dt>
+								<dd><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><?php echo ($vo["goods_name"]); ?></a></dd>
+								<dd><span>售价：</span><strong> ￥<?php echo ($vo["shop_price"]); ?></strong></dd>
+							</dl>
+						</li><?php endforeach; endif; else: echo "" ;endif; ?>
 					</ul>
 				</div>
 				<!-- 推荐商品 end -->
@@ -387,12 +360,12 @@
 				<div class="new none">
 					<ul>
 						<?php if(is_array($new)): $i = 0; $__LIST__ = $new;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li>
-								<dl>
-									<dt><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><img src="<?php echo ($vo["goods_thumb"]); ?>" alt="" /></a></dt>
-									<dd><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><?php echo ($vo["goods_name"]); ?></a></dd>
-									<dd><span>售价：</span><strong> ￥<?php echo ($vo["shop_price"]); ?></strong></dd>
-								</dl>
-							</li><?php endforeach; endif; else: echo "" ;endif; ?>
+							<dl>
+								<dt><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><img src="<?php echo ($vo["goods_thumb"]); ?>" alt="" /></a></dt>
+								<dd><a href="<?php echo U('Goods/index','goods_id='.$vo['id']);?>"><?php echo ($vo["goods_name"]); ?></a></dd>
+								<dd><span>售价：</span><strong> ￥<?php echo ($vo["shop_price"]); ?></strong></dd>
+							</dl>
+						</li><?php endforeach; endif; else: echo "" ;endif; ?>
 					</ul>
 				</div>
 				<!-- 新品上架 end-->
@@ -457,27 +430,15 @@
 	<div style="clear:both;"></div>
 
 	<!--1F 电脑办公 start -->
-	<div class="floor1 floor w1210 bc mt10">
+	<?php if(is_array($floor)): $i = 0; $__LIST__ = $floor;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><div class="floor1 floor w1210 bc mt10">
 		<!-- 1F 左侧 start -->
 		<div class="floor_left fl">
 			<!-- 商品分类信息 start-->
 			<div class="cate fl">
-				<h2>电脑、办公</h2>
+				<h2><?php echo ($vo["cname"]); ?></h2>
 				<div class="cate_wrap">
 					<ul>
-						<li><a href=""><b>.</b>外设产品</a></li>
-						<li><a href=""><b>.</b>鼠标</a></li>
-						<li><a href=""><b>.</b>笔记本</a></li>
-						<li><a href=""><b>.</b>超极本</a></li>
-						<li><a href=""><b>.</b>平板电脑</a></li>
-						<li><a href=""><b>.</b>主板</a></li>
-						<li><a href=""><b>.</b>显卡</a></li>
-						<li><a href=""><b>.</b>打印机</a></li>
-						<li><a href=""><b>.</b>一体机</a></li>
-						<li><a href=""><b>.</b>投影机</a></li>
-						<li><a href=""><b>.</b>路由器</a></li>
-						<li><a href=""><b>.</b>网卡</a></li>
-						<li><a href=""><b>.</b>交换机</a></li>
+					<?php if(is_array($vo["son"])): $i = 0; $__LIST__ = $vo["son"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($i % 2 );++$i;?><li><a href="<?php echo U('Category/index','id='.$v['id']);?>"><b>.</b><?php echo ($v["cname"]); ?></a></li><?php endforeach; endif; else: echo "" ;endif; ?>
 					</ul>
 					<p><a href=""><img src="/Public/Home/images/notebook.jpg" alt="" /></a></p>
 				</div>
@@ -489,146 +450,20 @@
 			<!-- 商品列表信息 start-->
 			<div class="goodslist fl">
 				<h2>
-					<span class="on">推荐商品</span>
-					<span>电脑整机</span>
-					<span>电脑配件</span>
-					<span>办公打印</span>
-					<span>网络产品</span>
+				<?php if(is_array($vo["recson"])): $keys = 0; $__LIST__ = $vo["recson"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($keys % 2 );++$keys;?><span <?php if(($keys) == "1"): ?>class="on"<?php endif; ?>><?php echo ($v["cname"]); ?></span><?php endforeach; endif; else: echo "" ;endif; ?>
 				</h2>
 				<div class="goodslist_wrap">
-					<div>
+					<?php if(is_array($vo["recson"])): $keys = 0; $__LIST__ = $vo["recson"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v2): $mod = ($keys % 2 );++$keys;?><div <?php if(($keys) != "1"): ?>class="none"<?php endif; ?>>
 						<ul>
-							<li>
+							<?php if(is_array($v2["goods"])): $i = 0; $__LIST__ = $v2["goods"];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v3): $mod = ($i % 2 );++$i;?><li>
 								<dl>
-									<dt><a href=""><img src="/Public/Home/images/hpG4.jpg" alt="" /></a></dt>
-									<dd><a href="">惠普G4-1332TX 14英寸笔</a></dd>
-									<dd><span>售价：</span> <strong>￥2999.00</strong></dd>
+									<dt><a href="<?php echo U('Goods/index','goods_id='.$v3['id']);?>"><img src="<?php echo ($v3["goods_thumb"]); ?>" alt="" /></a></dt>
+									<dd><a href="<?php echo U('Goods/index','goods_id='.$v3['id']);?>"><?php echo ($v3["goods_name"]); ?></a></dd>
+									<dd><span>售价：</span> <strong>￥<?php echo ($v3["shop_price"]); ?></strong></dd>
 								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/thinkpad e420.jpg" alt="" /></a></dt>
-									<dd><a href="">ThinkPad E42014英寸笔..</a></dd>
-									<dd><span>售价：</span> <strong>￥4199.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/acer4739.jpg" alt="" /></a></dt>
-									<dd><a href="">宏碁AS4739-382G32Mnk</a></dd>
-									<dd><span>售价：</span> <strong>￥2799.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/samsung6800.jpg" alt="" /></a></dt>
-									<dd><a href="">三星Galaxy Tab P6800.</a></dd>
-									<dd><span>售价：</span> <strong>￥4699.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/lh531.jpg" alt="" /></a></dt>
-									<dd><a href="">富士通LH531 14.1英寸笔记</a></dd>
-									<dd><span>售价：</span> <strong>￥2189.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/qinghuax2.jpg" alt="" /></a></dt>
-									<dd><a href="">清华同方精锐X2笔记本 </a></dd>
-									<dd><span>售价：</span> <strong>￥2499.00</strong></dd>
-								</dl>
-							</li>
+							</li><?php endforeach; endif; else: echo "" ;endif; ?>
 						</ul>
-					</div>
-					
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/hpG4.jpg" alt="" /></a></dt>
-									<dd><a href="">惠普G4-1332TX 14英寸笔</a></dd>
-									<dd><span>售价：</span> <strong>￥2999.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/qinghuax2.jpg" alt="" /></a></dt>
-									<dd><a href="">清华同方精锐X2笔记本 </a></dd>
-									<dd><span>售价：</span> <strong>￥2499.00</strong></dd>
-								</dl>
-							</li>
-							
-						</ul>
-					</div>
-
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/thinkpad e420.jpg" alt="" /></a></dt>
-									<dd><a href="">ThinkPad E42014英寸笔..</a></dd>
-									<dd><span>售价：</span> <strong>￥4199.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/acer4739.jpg" alt="" /></a></dt>
-									<dd><a href="">宏碁AS4739-382G32Mnk</a></dd>
-									<dd><span>售价：</span> <strong>￥2799.00</strong></dd>
-								</dl>
-							</li>
-						</ul>
-					</div>
-
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/acer4739.jpg" alt="" /></a></dt>
-									<dd><a href="">宏碁AS4739-382G32Mnk</a></dd>
-									<dd><span>售价：</span> <strong>￥2799.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/samsung6800.jpg" alt="" /></a></dt>
-									<dd><a href="">三星Galaxy Tab P6800.</a></dd>
-									<dd><span>售价：</span> <strong>￥4699.00</strong></dd>
-								</dl>
-							</li>
-						</ul>
-					</div>
-
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/samsung6800.jpg" alt="" /></a></dt>
-									<dd><a href="">三星Galaxy Tab P6800.</a></dd>
-									<dd><span>售价：</span> <strong>￥4699.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="/Public/Home/images/lh531.jpg" alt="" /></a></dt>
-									<dd><a href="">富士通LH531 14.1英寸笔记</a></dd>
-									<dd><span>售价：</span> <strong>￥2189.00</strong></dd>
-								</dl>
-							</li>
-						</ul>
-					</div>
-
+					</div><?php endforeach; endif; else: echo "" ;endif; ?>
 				</div>
 			</div>
 			<!-- 商品列表信息 end-->
@@ -679,9 +514,9 @@
 		</div>
 		<!-- 右侧 end -->
 
-	</div>
+	</div><?php endforeach; endif; else: echo "" ;endif; ?>
 	<!--1F 电脑办公 start -->
-
+	
 	
 	<div style="clear:both;"></div>
 

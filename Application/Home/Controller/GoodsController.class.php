@@ -13,6 +13,11 @@ class GoodsController extends CommonController {
         if(!$goods){
             $this->redirect('Index/index');
         }
+        //如果当前商品出于促销阶段 价格显示出为促销价格
+        if($goods['cx_price']>0 && $goods['start']<time() && $goods['end']>time())
+        {
+            $goods['shop_price'] = $goods['cx_price'];
+        }
         //将商品描述信息格式化
         $goods['goods_body']= htmlspecialchars_decode($goods['goods_body']);
         //获取商品对应的相册信息

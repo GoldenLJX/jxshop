@@ -15,10 +15,8 @@
 	<script type="text/javascript" src="__PUBLIC_HOME__/js/index.js"></script>
 </head>
 <body>
-	<include file="Public:header"/>
 	
-	<div style="clear:both;"></div>
-	
+	<include file="Public:header" />
 	<!-- 综合区域 start 包括幻灯展示，商城快报 -->
 	<div class="colligate w1210 bc mt10">
 		<!-- 幻灯区域 start -->
@@ -164,41 +162,16 @@
 				<!-- 疯狂抢购 start-->
 				<div class="crazy">
 					<ul>
+					<volist name="crazy" id="vo">
 						<li>
 							<dl>
-								<dt><a href=""><img src="__PUBLIC_HOME__/images/crazy1.jpg" alt="" /></a></dt>
-								<dd><a href="">惠普G4-1332TX 14英寸</a></dd>
-								<dd><span>售价：</span><strong> ￥2999.00</strong></dd>
+								<dt><a href="{:U('Goods/index','goods_id='.$vo['id'])}"><img src="{$vo.goods_thumb}" alt="" /></a></dt>
+								<dd><a href="{:U('Goods/index','goods_id='.$vo['id'])}">{$vo.goods_name}</a></dd>
+								<dd><span>售价：</span><strong> ￥{$vo.cx_price}</strong></dd>
 							</dl>
 						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="__PUBLIC_HOME__/images/crazy2.jpg" alt="" /></a></dt>
-								<dd><a href="">直降100元！TCL118升冰箱</a></dd>
-								<dd><span>售价：</span><strong> ￥800.00</strong></dd>
-							</dl>
-						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="__PUBLIC_HOME__/images/crazy3.jpg" alt="" /></a></dt>
-								<dd><a href="">康佳液晶37寸电视机</a></dd>
-								<dd><span>售价：</span><strong> ￥2799.00</strong></dd>
-							</dl>
-						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="__PUBLIC_HOME__/images/crazy4.jpg" alt="" /></a></dt>
-								<dd><a href="">梨子平板电脑7.9寸</a></dd>
-								<dd><span>售价：</span><strong> ￥1999.00</strong></dd>
-							</dl>
-						</li>
-						<li>
-							<dl>
-								<dt><a href=""><img src="__PUBLIC_HOME__/images/crazy5.jpg" alt="" /></a></dt>
-								<dd><a href="">好声音耳机</a></dd>
-								<dd><span>售价：</span><strong> ￥199.00</strong></dd>
-							</dl>
-						</li>
+					</volist>
+
 					</ul>	
 				</div>
 				<!-- 疯狂抢购 end-->
@@ -223,13 +196,13 @@
 				<div class="recommend none">
 					<ul>
 						<volist name="rec" id="vo">
-							<li>
-								<dl>
-									<dt><a href="{:U('Goods/index','goods_id='.$vo['id'])}"><img src="{$vo.goods_thumb}" alt="" /></a></dt>
-									<dd><a href="{:U('Goods/index','goods_id='.$vo['id'])}">{$vo.goods_name}</a></dd>
-									<dd><span>售价：</span><strong> ￥{$vo.shop_price}</strong></dd>
-								</dl>
-							</li>
+						<li>
+							<dl>
+								<dt><a href="{:U('Goods/index','goods_id='.$vo['id'])}"><img src="{$vo.goods_thumb}" alt="" /></a></dt>
+								<dd><a href="{:U('Goods/index','goods_id='.$vo['id'])}">{$vo.goods_name}</a></dd>
+								<dd><span>售价：</span><strong> ￥{$vo.shop_price}</strong></dd>
+							</dl>
+						</li>
 						</volist>
 					</ul>
 				</div>
@@ -239,13 +212,13 @@
 				<div class="new none">
 					<ul>
 						<volist name="new" id="vo">
-							<li>
-								<dl>
-									<dt><a href="{:U('Goods/index','goods_id='.$vo['id'])}"><img src="{$vo.goods_thumb}" alt="" /></a></dt>
-									<dd><a href="{:U('Goods/index','goods_id='.$vo['id'])}">{$vo.goods_name}</a></dd>
-									<dd><span>售价：</span><strong> ￥{$vo.shop_price}</strong></dd>
-								</dl>
-							</li>
+						<li>
+							<dl>
+								<dt><a href="{:U('Goods/index','goods_id='.$vo['id'])}"><img src="{$vo.goods_thumb}" alt="" /></a></dt>
+								<dd><a href="{:U('Goods/index','goods_id='.$vo['id'])}">{$vo.goods_name}</a></dd>
+								<dd><span>售价：</span><strong> ￥{$vo.shop_price}</strong></dd>
+							</dl>
+						</li>
 						</volist>
 					</ul>
 				</div>
@@ -311,27 +284,18 @@
 	<div style="clear:both;"></div>
 
 	<!--1F 电脑办公 start -->
+	<volist name="floor" id="vo">
 	<div class="floor1 floor w1210 bc mt10">
 		<!-- 1F 左侧 start -->
 		<div class="floor_left fl">
 			<!-- 商品分类信息 start-->
 			<div class="cate fl">
-				<h2>电脑、办公</h2>
+				<h2>{$vo.cname}</h2>
 				<div class="cate_wrap">
 					<ul>
-						<li><a href=""><b>.</b>外设产品</a></li>
-						<li><a href=""><b>.</b>鼠标</a></li>
-						<li><a href=""><b>.</b>笔记本</a></li>
-						<li><a href=""><b>.</b>超极本</a></li>
-						<li><a href=""><b>.</b>平板电脑</a></li>
-						<li><a href=""><b>.</b>主板</a></li>
-						<li><a href=""><b>.</b>显卡</a></li>
-						<li><a href=""><b>.</b>打印机</a></li>
-						<li><a href=""><b>.</b>一体机</a></li>
-						<li><a href=""><b>.</b>投影机</a></li>
-						<li><a href=""><b>.</b>路由器</a></li>
-						<li><a href=""><b>.</b>网卡</a></li>
-						<li><a href=""><b>.</b>交换机</a></li>
+					<volist name="vo.son" id="v">
+						<li><a href="{:U('Category/index','id='.$v['id'])}"><b>.</b>{$v.cname}</a></li>
+					</volist>
 					</ul>
 					<p><a href=""><img src="__PUBLIC_HOME__/images/notebook.jpg" alt="" /></a></p>
 				</div>
@@ -343,146 +307,26 @@
 			<!-- 商品列表信息 start-->
 			<div class="goodslist fl">
 				<h2>
-					<span class="on">推荐商品</span>
-					<span>电脑整机</span>
-					<span>电脑配件</span>
-					<span>办公打印</span>
-					<span>网络产品</span>
+				<volist name="vo.recson" id="v" key="keys">
+					<span <eq name="keys" value="1">class="on"</eq>>{$v.cname}</span>
+				</volist>
 				</h2>
 				<div class="goodslist_wrap">
-					<div>
+					<volist name="vo.recson" id="v2" key="keys">
+					<div <neq name="keys" value="1">class="none"</neq>>
 						<ul>
+							<volist name="v2.goods" id="v3">
 							<li>
 								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/hpG4.jpg" alt="" /></a></dt>
-									<dd><a href="">惠普G4-1332TX 14英寸笔</a></dd>
-									<dd><span>售价：</span> <strong>￥2999.00</strong></dd>
+									<dt><a href="{:U('Goods/index','goods_id='.$v3['id'])}"><img src="{$v3.goods_thumb}" alt="" /></a></dt>
+									<dd><a href="{:U('Goods/index','goods_id='.$v3['id'])}">{$v3.goods_name}</a></dd>
+									<dd><span>售价：</span> <strong>￥{$v3.shop_price}</strong></dd>
 								</dl>
 							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/thinkpad e420.jpg" alt="" /></a></dt>
-									<dd><a href="">ThinkPad E42014英寸笔..</a></dd>
-									<dd><span>售价：</span> <strong>￥4199.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/acer4739.jpg" alt="" /></a></dt>
-									<dd><a href="">宏碁AS4739-382G32Mnk</a></dd>
-									<dd><span>售价：</span> <strong>￥2799.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/samsung6800.jpg" alt="" /></a></dt>
-									<dd><a href="">三星Galaxy Tab P6800.</a></dd>
-									<dd><span>售价：</span> <strong>￥4699.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/lh531.jpg" alt="" /></a></dt>
-									<dd><a href="">富士通LH531 14.1英寸笔记</a></dd>
-									<dd><span>售价：</span> <strong>￥2189.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/qinghuax2.jpg" alt="" /></a></dt>
-									<dd><a href="">清华同方精锐X2笔记本 </a></dd>
-									<dd><span>售价：</span> <strong>￥2499.00</strong></dd>
-								</dl>
-							</li>
+							</volist>
 						</ul>
 					</div>
-					
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/hpG4.jpg" alt="" /></a></dt>
-									<dd><a href="">惠普G4-1332TX 14英寸笔</a></dd>
-									<dd><span>售价：</span> <strong>￥2999.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/qinghuax2.jpg" alt="" /></a></dt>
-									<dd><a href="">清华同方精锐X2笔记本 </a></dd>
-									<dd><span>售价：</span> <strong>￥2499.00</strong></dd>
-								</dl>
-							</li>
-							
-						</ul>
-					</div>
-
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/thinkpad e420.jpg" alt="" /></a></dt>
-									<dd><a href="">ThinkPad E42014英寸笔..</a></dd>
-									<dd><span>售价：</span> <strong>￥4199.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/acer4739.jpg" alt="" /></a></dt>
-									<dd><a href="">宏碁AS4739-382G32Mnk</a></dd>
-									<dd><span>售价：</span> <strong>￥2799.00</strong></dd>
-								</dl>
-							</li>
-						</ul>
-					</div>
-
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/acer4739.jpg" alt="" /></a></dt>
-									<dd><a href="">宏碁AS4739-382G32Mnk</a></dd>
-									<dd><span>售价：</span> <strong>￥2799.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/samsung6800.jpg" alt="" /></a></dt>
-									<dd><a href="">三星Galaxy Tab P6800.</a></dd>
-									<dd><span>售价：</span> <strong>￥4699.00</strong></dd>
-								</dl>
-							</li>
-						</ul>
-					</div>
-
-					<div class="none">
-						<ul>
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/samsung6800.jpg" alt="" /></a></dt>
-									<dd><a href="">三星Galaxy Tab P6800.</a></dd>
-									<dd><span>售价：</span> <strong>￥4699.00</strong></dd>
-								</dl>
-							</li>
-
-							<li>
-								<dl>
-									<dt><a href=""><img src="__PUBLIC_HOME__/images/lh531.jpg" alt="" /></a></dt>
-									<dd><a href="">富士通LH531 14.1英寸笔记</a></dd>
-									<dd><span>售价：</span> <strong>￥2189.00</strong></dd>
-								</dl>
-							</li>
-						</ul>
-					</div>
-
+					</volist>
 				</div>
 			</div>
 			<!-- 商品列表信息 end-->
@@ -534,8 +378,9 @@
 		<!-- 右侧 end -->
 
 	</div>
+	</volist>
 	<!--1F 电脑办公 start -->
-
+	
 	
 	<div style="clear:both;"></div>
 

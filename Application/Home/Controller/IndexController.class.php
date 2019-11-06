@@ -8,12 +8,17 @@ class IndexController extends CommonController {
         //获取热卖商品信息
         $goodsModel = D('Admin/Goods');
         $hot = $goodsModel->getRecGoods('is_hot');
-        $rec = $goodsModel->getRecGoods('is_rec');
-        $new = $goodsModel->getRecGoods('is_new');
         $this->assign('hot',$hot);
+        $rec = $goodsModel->getRecGoods('is_rec');
         $this->assign('hot',$rec);
+        $new = $goodsModel->getRecGoods('is_new');
         $this->assign('hot',$new);
-
+        //获取当前正在促销的商品信息
+        $crazy = $goodsModel->getCrazyGoods();
+        $this->assign('crazy',$crazy);
+        //获取楼层数据
+        $floor = D('Admin/Category')->getFloor();
+        $this->assign('floor',$floor);
         $this->display();
     }
 }

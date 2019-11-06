@@ -5,7 +5,8 @@ class GoodsModel extends CommonModel{
     protected $fields=array(
         'id','goods_name','goods_sn','cate_id','market_price'
         ,'shop_price','goods_img','goods_thumb','is_hot','is_rec',
-        'is_new','addtime','isdel','is_sale','type_id','goods_number'
+        'is_new','addtime','isdel','is_sale','type_id','goods_number',
+        'cs_price','start','end'
     );
     //自定验证
     protected $_validate=array(
@@ -22,6 +23,16 @@ class GoodsModel extends CommonModel{
         return false;
     }
     public function _before_insert(&$data){
+        //实现关于促销商品时间的格式化操作
+        if($data['cx_price']>0){
+            //设置商品为促销商品
+            $data['start']=strtotime($data['start']);
+            $data['end']=strtotime($data['end']);
+        }else{
+            $data['cx_price'] = 0.00;
+            $data['end'] = 0;
+            $data['start'] = 0;
+        }
         //添加时间
         $data['addtime'] = time();
         //处理货号
@@ -164,6 +175,16 @@ class GoodsModel extends CommonModel{
 
     //编辑功能
     public function update($data){
+        //实现关于促销商品时间的格式化操作
+        if($data['cx_price']>0){
+            //设置商品为促销商品
+            $data['start']=strtotime($data['start']);
+            $data['end']=strtotime($data['end']);
+        }else{
+            $data['cx_price'] = 0.00;
+            $data['end'] = 0;
+            $data['start'] = 0;
+        }
         $goods_id = $data["id"];
         //解决商品的货号问题
         $goods_sn= $data['goods_sn'];
@@ -275,7 +296,19 @@ class GoodsModel extends CommonModel{
         $this->where("id = $goods_id")->delete();
         return true;
     }
+    //获取推荐,热销,新品的商品
     public function getRecGoods($type){
         return $this->where("is_sale = 1 and $type = 1")->limit(5)->select();
+    }
+    //获取当前正在促销的商品
+    public function getCrazyGoods(){
+        /*查询条件
+        1.当前商品正在销售,
+        2.当前的时间出于促销的时间等结束时间之间
+        3.促销价格大于0
+        */
+        $where= 'is_sale = 1 and cx_price > 0 and start < '.time().' and end > '.time();
+
+        return $this->where($where)->limit(5)->select();
     }
 }

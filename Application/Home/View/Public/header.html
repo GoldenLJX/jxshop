@@ -6,7 +6,12 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <empty name="Think.session.user_id">
+                <li>您好，欢迎来到京西！[<a href="{:U('User/login')}">登录</a>] [<a href="{:U('User/regist')}">免费注册</a>] </li>
+                <else/>
+                    <li>您好{$Think.session.user.username}，欢迎来到京西！[<a href="{:U('User/logout')}">退出</a>]  </li>
+
+                </empty>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>

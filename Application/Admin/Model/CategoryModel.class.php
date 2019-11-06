@@ -69,4 +69,34 @@ class CategoryModel extends CommonModel{
         }
         return $this->save($data);
     }
+
+    //获取楼层信息,包括楼层的分类信息以及商品信息
+    public function getFloor(){
+        //获取所有的顶级分类
+        $data = $this->where('parent_id = 0')->select();
+        //根据顶级分类的标识获取对应的二级分类及推荐的二级分类信息
+        foreach ($data as $key=>$value){
+            //获取二级的分类信息
+            $data[$key]['son']=$this->where('parent_id = '.$value['id'])->select();
+            //获取推荐的二级分类信息
+            $data[$key]['recson']=$this->where('isrec = 1 and parent_id = '.$value['id'])->select();
+        //根据每一个楼层推荐的二级分类信息获取对应的商品数据
+            foreach ($data[$key]['recson'] as $k =>$v){
+                //$v代表的就是每一个推荐分类信息
+                $data[$key]['recson'][$k]['goods']=$this->getGoodsByCateId($v['id']);
+            }
+        }
+        return $data;
+    }
+    //根据分类ID表示获取对应的商品信息
+    public function getGoodsByCateId($cate_id,$limit=8){
+        //1.获取当前分类下面 子分类信息
+        $children = $this->getChildren($cate_id);
+        //2.将当前分类的标识追加到对应的子分类中
+        $children[] =$cate_id;
+        //3.将children格式化为字符串的格式目的就是为了使用MySQL中的in语法
+        $children=implode(',',$children);
+        $goods = D('Goods')->where("is_sale=1 and cate_id in ($children)")->limit($limit)->select();
+        return $goods;
+    }
 }
