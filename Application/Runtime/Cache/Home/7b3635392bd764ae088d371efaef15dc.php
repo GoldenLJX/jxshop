@@ -43,7 +43,9 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
+                <?php if(empty($_SESSION['user_id'])): ?><li>您好，欢迎来到京西！[<a href="<?php echo U('User/login');?>">登录</a>] [<a href="<?php echo U('User/regist');?>">免费注册</a>] </li>
+                <?php else: ?>
+                    <li>您好<?php echo ($_SESSION['user']['username']); ?>，欢迎来到京西！[<a href="<?php echo U('User/logout');?>">退出</a>]  </li><?php endif; ?>
                 <li class="line">|</li>
                 <li>我的订单</li>
                 <li class="line">|</li>
@@ -353,13 +355,13 @@
 						<li><span>上架时间：</span><?php echo (date('y-m-d',$goods["addtime"])); ?></li>
 						<li class="star"><span>商品评分：</span> <strong></strong><a href="">(已有21人评价)</a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
 					</ul>
-					<form action="" method="post" class="choose">
+					<form action="<?php echo U('Cart/addCart');?>" method="post" class="choose">
 						<ul>
 							<li class="product">
 								<dl>
 									<dt><?php echo ($vo["0"]["attr_name"]); ?>：</dt>
 									<dd>
-										<?php if(is_array($vo)): $keys = 0; $__LIST__ = $vo;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($keys % 2 );++$keys;?><a <?php if(($keys) == "1"): ?>class="selected"<?php endif; ?> href="javascript:;"><?php echo ($v["attr_values"]); ?> <input type="radio" name="color" value="黑色" checked="checked" /></a><?php endforeach; endif; else: echo "" ;endif; ?>
+										<?php if(is_array($vo)): $keys = 0; $__LIST__ = $vo;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$v): $mod = ($keys % 2 );++$keys;?><a <?php if(($keys) == "1"): ?>class="selected"<?php endif; ?> href="javascript:;"><?php echo ($v["attr_values"]); ?> <input type="radio" name="attr[<?php echo ($v["attr_id"]); ?>]" value="<?php echo ($v["id"]); ?>" <?php if(($keys) == "1"): ?>checked="checked"<?php endif; ?> /></a><?php endforeach; endif; else: echo "" ;endif; ?>
 									</dd>
 								</dl>
 							</li>
@@ -368,7 +370,7 @@
 									<dt>购买数量：</dt>
 									<dd>
 										<a href="javascript:;" id="reduce_num"></a>
-										<input type="text" name="amount" value="1" class="amount"/>
+										<input type="text" name="goods_count" value="1" class="amount"/>
 										<a href="javascript:;" id="add_num"></a>
 									</dd>
 								</dl>
@@ -382,7 +384,7 @@
 									</dd>
 								</dl>
 							</li>
-
+							<input type="hidden" name="goods_id" value="<?php echo ($_GET['goods_id']); ?>">
 						</ul>
 					</form>
 				</div>

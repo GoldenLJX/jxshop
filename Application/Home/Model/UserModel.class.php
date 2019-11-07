@@ -39,6 +39,8 @@ class UserModel extends Model{
         //保存用户的登录状态
         session("user",$info);
         session("user_id",$info['id']);
+        //实现购物车cookie中的数据转移到数据库中
+        D('Cart')->cookieToDB();
         return  true;
     }
 }
