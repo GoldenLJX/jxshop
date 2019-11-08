@@ -103,4 +103,89 @@ class CartModel extends Model{
         }
         cookie('cart',null);
     }
+    //获取购物车中的商品信息
+    public function getList(){
+        //获取当前购物车中对应的信息
+        $user_id = session('user_id');
+        if($user_id){
+            //表示用户已经登录,可以从数据库中获取购物车的数据
+            $data = $this->where('id='.$user_id)->select();
+        }else{
+            //没有登录 直接从cookie中获取对应的购物车的数据
+            $cart = unserialize(cookie('cart'));
+            //将没有登录的购物车的数据转换为数据库中的格式
+            foreach ($cart as$key=>$value){
+                $tmp = explode('-',$key);
+                $data[] = array(
+                    'user_id'=>$tmp[0],
+                    'goods_attr_ids'=>$tmp[1],
+                    'goods_count'=>$value
+                );
+            }
+        }
+        //2.根据购物车中商品的ID标识获取商品信息
+        $goodsModel = D('Admin/Goods');
+        foreach($data as $key => $value){
+            $goods = $goodsModel ->where('id= '.$value['goods_id'])->find();
+            //根据商品是否处于促销状态设置价格
+            if($goods['cx_price']>0 && $goods['start']<time() && $goods['end']>time()){
+                //处于促销状态因此设置对应的shop_price为促销价格
+                $goods['shop_price'] = $goods['cx_price'];
+            }
+            $data[$key]['goods'] = $goods;
+            //3.根据商品对应的属性值得组合获取对应的属性名称跟属性值
+            if($value['goods_attr_ids']){
+                //获取商品的属性信息
+                $attr = M('GoodsAttr')->alias('a')->join('left join jx_attribute b on a.attr_id = b.id')->
+                field('a.attr_values,b.attr_name')->where("a.id in ({$value['goods_attr_ids']})")->select();
+                $data[$key]['attr'] = $attr;
+            }
+        }
+        return $data;
+    }
+    //实现购物车中总金额的计算
+    public function getTotal($data){
+        $count = $price = 0;
+        foreach ($data as $key =>$value){
+            $count+=$value['goods_count'];
+            $price+=$value['goods_count']*$value['goods']['shop_price'];
+        }
+        return array(
+            'count'=>$count,
+            'price'=>$price
+        );
+    }
+
+    //实现删除的方法
+    public function dels($goods_id,$goods_attr_ids){
+        $goods_attr_ids = $goods_attr_ids?$goods_attr_ids:'';
+        $user_id = session('user_id');
+        if($user_id){
+            $where = "user_id = '$user_id' and goods_id = '$goods_id' and goods_attr_ids = '$goods_attr_ids'";
+            $this->where($where)->delete();
+        }else{
+            $cart = unserialize(cookie('cart'));
+            //手动的拼接当前商品对应的key信息
+            $key = $goods_id.'-'.$goods_attr_ids;
+            unset($cart[$key]);
+            //将最新的数据再次写入到cookie中
+            cookie('cart',serialize($cart));
+        }
+    }
+    //实现对购物车中商品数量的更新
+    public function updateCount($goods_id,$goods_attr_ids,$goods_count){
+    //增加判断当前$goods_count值小于等于0时不进行更新
+        if($goods_count<=0){
+            return false;
+        }
+        $goods_attr_ids = $goods_attr_ids?$goods_attr_ids:'';
+
+        $user_id = session('user_id');
+        if($user_id){
+            $where = "user_id= $user_id and goods_id = $goods_id and goods_attr_ids= $goods_attr_ids";
+            $this->where($where)->setField('goods_count',$goods_count);
+        }else{
+            $cart = unserialize(cookie('cart'));
+        }
+    }
 }
