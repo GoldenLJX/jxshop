@@ -27,7 +27,6 @@ class GoodsController extends CommonController
             $this->assign('type',$type);
             $this->assign('cate',$cate);
             $this->display();
-            exit();
         }
         $model = D('Goods');
         $data = $model->create();
